@@ -1,0 +1,482 @@
+scope: BILLING
+type: BILLING_CSV_GENERATION
+batch:
+  enabled: false
+  conditions:
+    triggerCount: 0
+    ttlSeconds: 0
+  bulkSubmit: true
+  batchSize: 10
+watching:
+  entity:
+    smvs_clock:
+      - Update
+  columns:
+    - smvs_billingclaimsbatching
+query:
+  - label: main
+    language: fetchxml
+    type: main
+    param:
+      - owningbusinessunit
+    headers:
+      - activityid
+      - contact.address1_city
+      - contact.address1_line1
+      - contact.address1_postalcode
+      - contact.address1_stateorprovince
+      - contact.birthdate
+      - contact.contactid
+      - contact.firstname
+      - contact.middlename
+      - contact.gendercode
+      - contact.lastname
+      - contact.mobilephone
+      - msemr_appointmentemr.activityid
+      - msemr_appointmentemr.msemr_appointmentstatus
+      - msemr_appointmentemr.msemr_appointmenttype
+      - msemr_appointmentemr.smvs_appointment_dose_number
+      - msemr_appointmentemr.smvs_appointmentdatetime
+      - msemr_appointmentemr.smvs_billable_status
+      - msemr_appointmentemr.smvs_cardholder_first_name
+      - msemr_appointmentemr.smvs_cardholder_last_name
+      - msemr_appointmentemr.smvs_cardholder_middle_name
+      - msemr_appointmentemr.smvs_claim
+      - msemr_appointmentemr.smvs_fulfilleddate
+      - msemr_appointmentemr.smvs_group_number
+      - msemr_appointmentemr.smvs_insurance_type
+      - msemr_appointmentemr.smvs_member_id
+      - msemr_appointmentemr.smvs_member_id_prefix
+      - msemr_appointmentemr.smvs_member_id_suffix
+      - msemr_appointmentemr.smvs_payment_type
+      - msemr_appointmentemr.smvs_relationship_subscriber
+      - msemr_appointmentemr.smvs_service
+      - msemr_codeableconcept.smvs_ndcnumber
+      - msemr_healthcareservice.msemr_healthcareserviceid
+      - msemr_healthcareservicecategory.msemr_healthcareservicecategoryid
+      - msemr_healthcareservicecategory.smvs_billable_status
+      - msemr_location.smvs_billable_status
+      - msemr_location.smvs_placeofservice
+      - smvs_claim.ownerid
+      - smvs_claim.owningbusinessunit
+      - smvs_claim.smvs_box21diagnosisindicator
+      - smvs_claim.smvs_box22resubmissioncodevoidorcorrection
+      - smvs_claim.smvs_box26patientsaccountnumber
+      - smvs_claim.smvs_claimid
+      - smvs_claim.smvs_claimstatus
+      - smvs_claim.smvs_patientid
+      - smvs_claimgroup.smvs_claimgroupid
+      - smvs_claimgroup.smvs_filename
+      - smvs_insuranceorganization.smvs_billable_status
+      - smvs_insuranceorganization.smvs_include_taxonomy_code
+      - smvs_insuranceorganization.smvs_includendc
+      - smvs_insuranceorganization.smvs_insuranceorganizationid
+      - smvs_insuranceorganization.smvs_name
+      - smvs_insuranceorganization.smvs_payer_id
+      - smvs_insuranceorganization.smvs_payer_name
+      - smvs_service_type.crf7e_vaccinegroup
+      - smvs_service_type.smvs_name
+      - smvs_vaccinetype.smvs_unit_of_volume
+      - smvs_vaccinetype.smvs_vaccinetypeid
+      - smvs_vaccinetype.smvs_volume
+    queryText: #language=xml
+      <?xml version="1.0" encoding="UTF-8"?>
+      <fetch xmlns:generator="MarkMpn.SQL4CDS">
+        <entity name="msemr_appointmentemr">
+          <attribute name="activityid" alias="msemr_appointmentemr.activityid"/>
+          <attribute name="msemr_appointmentstatus" alias="msemr_appointmentemr.msemr_appointmentstatus"/>
+          <attribute name="msemr_appointmenttype" alias="msemr_appointmentemr.msemr_appointmenttype"/>
+          <attribute name="smvs_appointment_dose_number" alias="msemr_appointmentemr.smvs_appointment_dose_number"/>
+          <attribute name="smvs_appointmentdatetime" alias="msemr_appointmentemr.smvs_appointmentdatetime"/>
+          <attribute name="smvs_billable_status" alias="msemr_appointmentemr.smvs_billable_status"/>
+          <attribute name="smvs_billing_type" alias="msemr_appointmentemr.smvs_billing_type"/>
+          <attribute name="smvs_cardholder_first_name" alias="msemr_appointmentemr.smvs_cardholder_first_name"/>
+          <attribute name="smvs_cardholder_last_name" alias="msemr_appointmentemr.smvs_cardholder_last_name"/>
+          <attribute name="smvs_cardholder_middle_name" alias="msemr_appointmentemr.smvs_cardholder_middle_name"/>
+          <attribute name="smvs_claim" alias="msemr_appointmentemr.smvs_claim"/>
+          <attribute name="smvs_fulfilleddate" alias="msemr_appointmentemr.smvs_fulfilleddate"/>
+          <attribute name="smvs_group_number" alias="msemr_appointmentemr.smvs_group_number"/>
+          <attribute name="smvs_insurance_type" alias="msemr_appointmentemr.smvs_insurance_type"/>
+          <attribute name="smvs_member_id" alias="msemr_appointmentemr.smvs_member_id"/>
+          <attribute name="smvs_member_id_prefix" alias="msemr_appointmentemr.smvs_member_id_prefix"/>
+          <attribute name="smvs_member_id_suffix" alias="msemr_appointmentemr.smvs_member_id_suffix"/>
+          <attribute name="smvs_payment_type" alias="msemr_appointmentemr.smvs_payment_type"/>
+          <attribute name="smvs_relationship_subscriber" alias="msemr_appointmentemr.smvs_relationship_subscriber"/>
+          <attribute name="smvs_service" alias="msemr_appointmentemr.smvs_service"/>
+          <link-entity name="smvs_claim" from="smvs_claimid" to="smvs_claim" alias="smvs_claim" link-type="inner">
+            <attribute name="owningbusinessunit"/>
+            <attribute name="ownerid"/>
+            <attribute name="smvs_claimstatus"/>
+            <attribute name="smvs_claimid"/>
+            <attribute name="smvs_appointmentid"/>
+            <attribute name="smvs_box22resubmissioncodeoriginalrefno"/>
+            <attribute name="smvs_patientid"/>
+            <attribute name="smvs_box26patientsaccountnumber"/>
+            <attribute name="smvs_box22resubmissioncodevoidorcorrection"/>
+            <attribute name='smvs_box21diagnosisindicator'/>
+            <link-entity name="smvs_claimgroup" to="smvs_claimgroup" from='smvs_claimgroupid' alias="smvs_claimgroup"
+                         link-type='inner'>
+              <attribute name='smvs_claimgroupid'/>
+              <attribute name='smvs_filename'/>
+              <filter type="and">
+                <condition attribute="statecode" operator="eq" value="0"/>
+                <condition attribute='smvs_status' operator='eq' value='153940002'/>
+              </filter>
+            </link-entity>
+            <filter type="and">
+              <condition attribute="statecode" operator="eq" value="0"/>
+            </filter>
+          </link-entity>
+          <link-entity name="msemr_location" to="smvs_location" from="msemr_locationid" alias="msemr_location"
+                       link-type="outer">
+            <attribute name="smvs_placeofservice"/>
+            <attribute name="smvs_billable_status"/>
+          </link-entity>
+          <link-entity name="msemr_codeableconcept" to="msemr_appointmenttype" from="msemr_codeableconceptid"
+                       alias="msemr_codeableconcept" link-type="outer">
+            <attribute name="smvs_ndcnumber"/>
+            <link-entity name="smvs_vaccinetype" to="smvs_vaccinetypeid" from="smvs_vaccinetypeid"
+                         alias="smvs_vaccinetype" link-type="outer">
+              <attribute name="smvs_volume"/>
+              <attribute name="smvs_vaccinetypeid"/>
+              <attribute name="smvs_unit_of_volume"/>
+            </link-entity>
+          </link-entity>
+          <link-entity name="smvs_insuranceorganization" to="smvs_insuranceorganizationid"
+                       from="smvs_insuranceorganizationid" alias="smvs_insuranceorganization" link-type="outer">
+            <attribute name="smvs_includendc"/>
+            <attribute name="smvs_payer_id"/>
+            <attribute name="smvs_name"/>
+            <attribute name="smvs_include_taxonomy_code"/>
+            <attribute name="smvs_billable_status"/>
+            <attribute name="smvs_payer_name"/>
+            <attribute name="smvs_insuranceorganizationid"/>
+          </link-entity>
+          <link-entity name='msemr_healthcareservice' to='smvs_service' from='msemr_healthcareserviceid'
+                       alias='msemr_healthcareservice' link-type='outer'>
+            <attribute name='msemr_healthcareserviceid'/>
+            <link-entity name='msemr_healthcareservicecategory' to='smvs_healthcarecategory'
+                         from='msemr_healthcareservicecategoryid' alias='msemr_healthcareservicecategory'
+                         link-type='outer'>
+              <attribute name='smvs_billable_status'/>
+              <attribute name='msemr_healthcareservicecategoryid'/>
+              <link-entity name='smvs_service_type' to='smvs_service_type' from='smvs_service_typeid'
+                           alias='smvs_service_type' link-type='outer'>
+                <attribute name='smvs_name'/>
+                <attribute name='crf7e_vaccinegroup'/>
+              </link-entity>
+            </link-entity>
+          </link-entity>
+          <link-entity name="contact" to="msemr_actorpatient" from="contactid" alias="contact" link-type="inner">
+            <attribute name="contactid"/>
+            <attribute name="lastname"/>
+            <attribute name="firstname"/>
+            <attribute name="middlename"/>
+            <attribute name="birthdate"/>
+            <attribute name="gendercode"/>
+            <attribute name="address1_line1"/>
+            <attribute name="address1_city"/>
+            <attribute name="address1_stateorprovince"/>
+            <attribute name="mobilephone"/>
+            <attribute name="address1_postalcode"/>
+          </link-entity>
+          <filter type="and">
+            <condition attribute="statecode" operator="eq" value="0"/>
+            <condition attribute='owningbusinessunit' operator="eq" value='{{owningbusinessunit}}'/>
+          </filter>
+        </entity>
+      </fetch>
+
+  - label: serviceLines
+    language: fetchxml
+    type: lookup
+    param:
+      - N\A
+    headers:
+      - smvs_claimid
+      - smvs_charges
+      - smvs_expected_amount_service_line
+      - smvs_renderingprovidernpi
+      - smvs_renderingproviderid
+      - smvs_idqualifier
+      - smvs_epsdtorfamilyplan
+      - smvs_daysorunits
+      - smvs_dayorunitvalue
+      - smvs_diagnosispointer
+      - smvs_proceduresservicesorsupplies
+      - smvs_modifiers
+      - smvs_emg
+      - smvs_placeofservice
+      - smvs_datesofservice
+      - smvs_unitmeasurementcode
+      - smvs_nationaldrugunitcount
+      - smvs_nationaldrugcode
+      - smvs_ignoreforclaimsubmission
+    queryText: #language=xml
+      <fetch xmlns:generator='MarkMpn.SQL4CDS'>
+        <entity name='smvs_serviceline'>
+          <attribute name='smvs_claimid'/>
+          <attribute name='smvs_charges'/>
+          <attribute name='smvs_renderingprovidernpi'/>
+          <attribute name='smvs_renderingproviderid'/>
+          <attribute name='smvs_idqualifier'/>
+          <attribute name='smvs_epsdtorfamilyplan'/>
+          <attribute name='smvs_daysorunits'/>
+          <attribute name='smvs_dayorunitvalue'/>
+          <attribute name='smvs_charges'/>
+          <attribute name='smvs_diagnosispointer'/>
+          <attribute name='smvs_proceduresservicesorsupplies'/>
+          <attribute name='smvs_modifiers'/>
+          <attribute name='smvs_emg'/>
+          <attribute name='smvs_placeofservice'/>
+          <attribute name='smvs_datesofservice'/>
+          <attribute name='smvs_unitmeasurementcode'/>
+          <attribute name='smvs_nationaldrugunitcount'/>
+          <attribute name='smvs_nationaldrugcode'/>
+          <attribute name='smvs_ignoreforclaimsubmission'/>
+          <link-entity name='smvs_claim' from='smvs_claimid' to='smvs_claimid'>
+            <link-entity name="smvs_claimgroup" to="smvs_claimgroup" from='smvs_claimgroupid' alias="smvs_claimgroup"
+                         link-type='inner'>
+              <filter type="and">
+                <condition attribute="statecode" operator="eq" value="0"/>
+                <condition attribute='smvs_status' operator='eq' value='153940002'/>
+              </filter>
+            </link-entity>
+            <filter type="and">
+              <condition attribute="statecode" operator="eq" value="0"/>
+            </filter>
+          </link-entity>
+          <filter type='and'>
+            <condition attribute='smvs_ignoreforclaimsubmission' operator='eq' value='0'/>
+            <condition attribute='owningbusinessunit' operator="eq" value='{{owningbusinessunit}}'/>
+          </filter>
+        </entity>
+      </fetch>
+
+  - label: smvs_billingconfiguration
+    language: fetchxml
+    type: lookup
+    param:
+      - owningbusinessunit
+    headers:
+      - msemr_appointmentemr.activityid
+      - smvs_cpthcpcscode.smvs_cpthcpcscodeid
+      - smvs_cpthcpcscode.statecode
+      - smvs_cpthcpcscode.smvs_cpt
+      - smvs_cpthcpcscode.smvs_hcpcs
+      - smvs_proceduretype.smvs_proceduretypeid
+      - smvs_proceduretype.smvs_procedurecode
+      - smvs_procedureconfiguration.smvs_procedureconfigurationid
+      - smvs_billingconfiguration.smvs_billingconfigurationid
+      - smvs_billingconfiguration.smvs_insuranceorganization
+    queryText: #language=xml
+      <fetch xmlns:generator='MarkMpn.SQL4CDS' distinct='true'>
+        <entity name='smvs_appointmentcpthcpcscode'>
+          <link-entity name='msemr_appointmentemr' to='smvs_appointment' from='activityid' alias='msemr_appointmentemr'
+                       link-type='inner'>
+            <attribute name='activityid'/>
+            <link-entity name='smvs_claim' to='smvs_claim' from='smvs_claimid' alias='smvs_claim' link-type='inner'>
+              <link-entity name="smvs_claimgroup" to="smvs_claimgroup" from='smvs_claimgroupid' alias="smvs_claimgroup"
+                           link-type='inner'>
+                <filter type="and">
+                  <condition attribute="statecode" operator="eq" value="0"/>
+                  <condition attribute='smvs_status' operator='eq' value='153940002'/>
+                </filter>
+              </link-entity>
+            </link-entity>
+            <order attribute='activityid'/>
+          </link-entity>
+          <link-entity name='smvs_cpthcpcscode' to='smvs_cpthcpcs' from='smvs_cpthcpcscodeid' alias='smvs_cpthcpcscode'
+                       link-type='inner'>
+            <attribute name='smvs_cpthcpcscodeid'/>
+            <attribute name='statecode'/>
+            <attribute name='smvs_cpt'/>
+            <attribute name='smvs_hcpcs'/>
+            <link-entity name='smvs_proceduretype' to='smvs_proceduretype' from='smvs_proceduretypeid'
+                         alias='smvs_proceduretype' link-type='inner'>
+              <attribute name='smvs_proceduretypeid'/>
+              <attribute name='smvs_procedurecode'/>
+              <order attribute='smvs_proceduretypeid'/>
+              <order attribute='smvs_procedurecode'/>
+            </link-entity>
+            <link-entity name='smvs_procedureconfiguration' to='smvs_cpthcpcscodeid' from='smvs_cpthcpcs'
+                         alias='smvs_procedureconfiguration' link-type='outer'>
+              <attribute name='smvs_procedureconfigurationid'/>
+              <link-entity name='smvs_billingconfiguration' to='smvs_procedureconfigurationid'
+                           from='smvs_procedureconfiguration' alias='smvs_billingconfiguration' link-type='outer'>
+                <attribute name='smvs_billingconfigurationid'/>
+                <attribute name='smvs_insuranceorganization'/>
+                <order attribute='smvs_billingconfigurationid'/>
+                <order attribute='smvs_insuranceorganization'/>
+              </link-entity>
+              <order attribute='smvs_procedureconfigurationid'/>
+            </link-entity>
+            <order attribute='smvs_cpthcpcscodeid'/>
+            <order attribute='statecode'/>
+          </link-entity>
+          <filter>
+            <filter type='or'>
+              <condition attribute='statecode' entityname='smvs_billingconfiguration' operator='eq' value='0'/>
+              <condition attribute='owningbusinessunit' operator="eq" value='{{owningbusinessunit}}'/>
+            </filter>
+          </filter>
+        </entity>
+      </fetch>
+
+  - label: smvs_appointmentcpthcpcscode
+    language: fetchxml
+    type: lookup
+    param:
+      - owningbusinessunit
+    headers:
+      - smvs_appointmentcpthcpcscodeid
+      - msemr_appointmentemr.activityid
+      - smvs_appointmentcpthcpcscodeid
+      - smvs_cpthcpcscode.smvs_cpthcpcscodeid
+      - smvs_cpthcpcscode.smvs_cpt
+      - smvs_cpthcpcscode.smvs_hcpcs
+      - smvs_cpthcpcscode.statecode
+      - smvs_proceduretype.smvs_procedurecode
+    queryText: #language=xml
+      <fetch xmlns:generator='MarkMpn.SQL4CDS'>
+        <entity name='smvs_appointmentcpthcpcscode'>
+          <attribute name='smvs_appointmentcpthcpcscodeid'/>
+          <link-entity name='msemr_appointmentemr' to='smvs_appointment' from='activityid' alias='msemr_appointmentemr'
+                       link-type='inner'>
+            <attribute name='activityid'/>
+            <link-entity name='smvs_claim' to='smvs_claim' from='smvs_claimid' alias='smvs_claim' link-type='inner'>
+              <link-entity name="smvs_claimgroup" to="smvs_claimgroup" from='smvs_claimgroupid' alias="smvs_claimgroup"
+                           link-type='inner'>
+                <filter type="and">
+                  <condition attribute="statecode" operator="eq" value="0"/>
+                  <condition attribute='smvs_status' operator='eq' value='153940002'/>
+                  <condition attribute='owningbusinessunit' operator="eq" value='{{owningbusinessunit}}'/>
+                </filter>
+              </link-entity>
+            </link-entity>
+          </link-entity>
+          <link-entity name='smvs_cpthcpcscode' to='smvs_cpthcpcs' from='smvs_cpthcpcscodeid' alias='smvs_cpthcpcscode'
+                       link-type='inner'>
+            <attribute name='smvs_cpthcpcscodeid'/>
+            <attribute name='smvs_cpt'/>
+            <attribute name='smvs_hcpcs'/>
+            <attribute name='statecode'/>
+            <link-entity name='smvs_proceduretype' to='smvs_proceduretype' from='smvs_proceduretypeid'
+                         alias='smvs_proceduretype' link-type='inner'>
+              <attribute name='smvs_procedurecode'/>
+            </link-entity>
+          </link-entity>
+        </entity>
+      </fetch>
+
+  - label: smvs_insurance_detail
+    language: fetchxml
+    type: lookup
+    param:
+      - owningbusinessunit
+    headers:
+      - activityid
+      - smvs_insurance_detailsid
+      - smvs_billable
+      - createdon
+      - smvs_insurance_organization
+    queryText: #language=xml
+      <fetch xmlns:generator='MarkMpn.SQL4CDS' distinct='true'>
+        <entity name='msemr_appointmentemr'>
+          <attribute name='activityid'/>
+          <link-entity name='smvs_claim' to='smvs_claim' from='smvs_claimid' alias='smvs_claim' link-type='inner'>
+            <link-entity name="smvs_claimgroup" to="smvs_claimgroup" from='smvs_claimgroupid' alias="smvs_claimgroup"
+                         link-type='inner'>
+              <filter type="and">
+                <condition attribute="statecode" operator="eq" value="0"/>
+                <condition attribute='smvs_status' operator='eq' value='153940002'/>
+                <condition attribute='owningbusinessunit' operator="eq" value='{{owningbusinessunit}}'/>
+              </filter>
+            </link-entity>
+          </link-entity>
+          <link-entity name='smvs_insuranceorganization' to='smvs_insuranceorganizationid'
+                       from='smvs_insuranceorganizationid' alias='smvs_insuranceorganization' link-type='inner'>
+            <link-entity name='smvs_insurance_details' to='smvs_insuranceorganizationid'
+                         from='smvs_insurance_organization' alias='smvs_insurance_details' link-type='inner'>
+              <attribute name='smvs_insurance_detailsid' alias='smvs_insurance_detailsid'/>
+              <attribute name='smvs_billable' alias='smvs_billable'/>
+              <attribute name='createdon' alias='createdon'/>
+              <attribute name='smvs_insurance_organization' alias='smvs_insurance_organization'/>
+            </link-entity>
+          </link-entity>
+        </entity>
+      </fetch>
+
+  - label: smvs_appointment_icd_10_code
+    language: fetchxml
+    type: lookup
+    param:
+      - owningbusinessunit
+    headers:
+      - msemr_appointmentemr.activityid
+      - smvs_appointment_icd_10_codeid
+    queryText: #language=xml
+      <fetch xmlns:generator='MarkMpn.SQL4CDS'>
+        <entity name='smvs_appointment_icd_10_code'>
+          <attribute name='smvs_appointment_icd_10_codeid'/>
+          <link-entity name='msemr_appointmentemr' to='smvs_appointment' from='activityid' alias='msemr_appointmentemr'
+                       link-type='inner'>
+            <attribute name='activityid'/>
+            <link-entity name='smvs_claim' to='smvs_claim' from='smvs_claimid' alias='smvs_claim' link-type='inner'>
+              <link-entity name="smvs_claimgroup" to="smvs_claimgroup" from='smvs_claimgroupid' alias="smvs_claimgroup"
+                           link-type='inner'>
+                <filter type="and">
+                  <condition attribute="statecode" operator="eq" value="0"/>
+                  <condition attribute='smvs_status' operator='eq' value='153940002'/>
+                  <condition attribute='owningbusinessunit' operator="eq" value='{{owningbusinessunit}}'/>
+                </filter>
+              </link-entity>
+            </link-entity>
+          </link-entity>
+        </entity>
+      </fetch>
+
+  - label: appsettings
+    language: fetchxml
+    type: lookup
+    param:
+      - owningbusinessunit
+    headers:
+      - smvs_billing_first_name
+      - smvs_billing_last_name
+      - smvs_billing_address
+      - smvs_billing_state
+      - smvs_billing_city
+      - smvs_billing_zip
+      - smvs_npi
+      - smvs_taxonomy_code
+      - smvs_renderingprovidernpi
+      - owningbusinessunit
+      - smvs_physicians_first_name
+      - smvs_physicians_last_name
+      - smvs_batch_prefix_name
+      - smvs_placeofservice
+      - smvs_ssn_or_federal_tax_id_number
+    queryText: #language=xml
+      <fetch xmlns:generator='MarkMpn.SQL4CDS'>
+        <entity name='smvs_appsetting'>
+          <attribute name='smvs_billing_first_name'/>
+          <attribute name='smvs_billing_last_name'/>
+          <attribute name='smvs_billing_address'/>
+          <attribute name='smvs_billing_state'/>
+          <attribute name='smvs_billing_city'/>
+          <attribute name='smvs_billing_zip'/>
+          <attribute name='smvs_npi'/>
+          <attribute name='smvs_taxonomy_code'/>
+          <attribute name='smvs_renderingprovidernpi'/>
+          <attribute name='owningbusinessunit'/>
+          <attribute name='smvs_physicians_first_name'/>
+          <attribute name='smvs_physicians_last_name'/>
+          <attribute name='smvs_batch_prefix_name'/>
+          <attribute name='smvs_placeofservice'/>
+          <attribute name='smvs_ssn_or_federal_tax_id_number'/>
+          <filter>
+            <condition attribute="owningbusinessunit" operator="eq" value='{{owningbusinessunit}}'/>
+          </filter>
+        </entity>
+      </fetch>

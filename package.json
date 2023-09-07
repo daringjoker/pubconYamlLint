@@ -1,0 +1,20 @@
+{
+  "name": "pubconyamllint",
+  "version": "1.0.0",
+  "description": "A linter and validator for pubcon yaml files",
+  "main": "index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node -r ts-node/register index.ts"
+  },
+  "author": "Daringjoker (Pukar Giri)",
+  "license": "MIT",
+  "devDependencies": {
+    "fast-xml-parser": "^4.2.7",
+    "libxmljs2-xsd": "^0.30.1",
+    "lodash": "^4.17.21",
+    "ts-node": "^10.9.1",
+    "yaml": "^2.3.2",
+    "zod": "^3.22.2"
+  }
+}
